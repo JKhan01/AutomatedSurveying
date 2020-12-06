@@ -1,0 +1,12 @@
+{% extends "baseNoImg.html" %}
+{% block content %}
+<form name="pushimages" enctype=multipart/form-data action="{% url 'pushImage' %}" method="POST" style="background-color: orange; border-radius: 5px; font-family: 'Courier New', Courier, monospace; size: 20px; padding-left: 20px; width: 80vw; float: left; padding-right: 20px;text-align: center;padding-top:1vh">
+    {% csrf_token %}
+    <input  type="hidden" name="pid" value={{data}}>
+    <input type="file" name="imgs" multiple><br><br>
+    
+    <input type="submit" value="Upload">
+     
+</form>
+
+{% endblock %}

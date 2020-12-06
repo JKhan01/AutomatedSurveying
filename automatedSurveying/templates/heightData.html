@@ -1,0 +1,16 @@
+{% extends "baseDash.html" %}
+{% block content %}
+<form name="heightdata" action="/generatereport" method="GET" style="background-color: orange; border-radius: 5px; font-family: 'Courier New', Courier, monospace; size: 20px; padding-left: 20px; width: 40vw; float: left; padding-right: 20px;text-align: center;">
+    {% for i in range(1,data[1]+1) %}
+        
+        <input type="number" placeholder="Enter height of Capture for Image {{i}}" name={{i}} style="width: 38vw;  padding: 1vw 2vw; display: block;border: 1px solid;border-radius: 3px;box-sizing: border-box;" required/>
+        <br><br>
+    {% endfor %}
+    <input type="hidden" name="pid" value={{data[0]}}>
+    <input type="hidden" name="length" value={{data[1]}}>
+    <input type="submit" value="Submit">
+     
+</form>
+
+
+{% endblock %}

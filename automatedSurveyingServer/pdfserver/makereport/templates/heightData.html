@@ -1,0 +1,17 @@
+{% extends "baseNoImg.html" %}
+{% block content %}
+<form name="heightdata" action="{% url 'pushData' %}" method="POST" style="background-color: orange; border-radius: 5px; font-family: 'Courier New', Courier, monospace; size: 20px; padding-left: 20px; width: 40vw; float: left; padding-right: 20px;text-align: center;">
+    {% csrf_token %}
+    {% for i in count|get_range %}
+        
+        <input type="number" step="any" placeholder="Enter height of Capture for Image {{i}}" name={{i}} style="width: 38vw;  padding: 1vw 2vw; display: block;border: 1px solid;border-radius: 3px;box-sizing: border-box;" required/>
+        <br><br>
+    {% endfor %}
+    <input type="hidden" name="pid" value="{{ pid }}">
+    <input type="hidden" name="length" value="{{ count }}">
+    <input type="submit" value="Submit">
+     
+</form>
+
+
+{% endblock %}

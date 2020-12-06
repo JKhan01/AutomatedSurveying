@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form name="login" action="/logCheck" method="GET" style="background-color: orange; border-radius: 5px; font-family: 'Courier New', Courier, monospace; size: 20px; padding-left: 20px; width: 40vw; float: left; padding-right: 20px;text-align: center;">
+<h1> Login for Automated Surveying</h1>
+<br>
+
+<input type="email" name="mail" style="width: 38vw;  padding: 1vw 2vw; display: block;border: 1px solid;border-radius: 3px;box-sizing: border-box;" placeholder="Enter a Valid Email Address" required/>
+
+<br><br>
+<input type="password" name="psswd" style="width: 38vw;  padding: 1vw 2vw;display: block;border: 1px solid;border-radius: 3px;box-sizing: border-box;" placeholder="Enter Password" required/>
+<br><br>
+
+<input type="submit" value="Submit" onclick="return validateInp()"><br><br>
+<label style="font-size: 15px;">Not Registered? Register Now by <a href='/signup'>Clicking Here</a></label>
+<br><br>
+</form>
+
+<script>
+    function validateInp()
+    {
+        var em =document.forms["login"]["mail"].value;
+        var ps = document.forms["login"]["psswd"].value;
+        if (em == "" || ps == "")
+        {
+            alert("All entries must be filled to login!");
+            return false;        
+        }
+        else 
+        {
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (reg.test(em) == false)
+            {
+                alert ("Incorrect Email format");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+</script>
+{% endblock %}

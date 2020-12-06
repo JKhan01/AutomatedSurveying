@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<form name="signup" action="/mailer" method="GET" style="background-color: orange; border-radius: 5px; font-family: 'Courier New', Courier, monospace; size: 20px; padding-left: 20px; width: 40vw; float: left; padding-right: 20px;text-align: center;">
+<h1> Register for Automated Surveying</h1>
+<br>
+<input type="text" name="nm" style="width: 38vw;  padding: 1vw 2vw; display: block;border: 1px solid;border-radius: 3px;box-sizing: border-box;" placeholder="Enter Your name" required/>
+<br><br>
+<input type="email" name="mail" style="width: 38vw;  padding: 1vw 2vw; display: block;border: 1px solid;border-radius: 3px;box-sizing: border-box;" placeholder="Enter a Valid Email Address" required/>
+<br><br>
+<input type="password" name="psswd" style="width: 38vw;  padding: 1vw 2vw; display: block;border: 1px solid;border-radius: 3px;box-sizing: border-box;" placeholder="Enter a Password" required/>
+<br><br>
+<input type="password" name="repsswd" style="width: 38vw;  padding: 1vw 2vw; display: block;border: 1px solid;border-radius: 3px;box-sizing: border-box;" placeholder="Retype Password" required/>
+<br><br>
+<input type="submit" value="Submit" onclick="return validatePass()">
+<br><br>
+<label style="font-size: 15px;">Already registered? <a href='/'>Login Now</a></label>
+<br>
+<br>
+
+</form>
+<script>
+    function validatePass()
+    {
+        var nm = document.forms["signup"]["nm"].value;
+        var mail =document.forms["signup"]["mail"].value; 
+        var psswd=document.forms["signup"]["psswd"].value;
+        var repsswd=document.forms["signup"]["repsswd"].value;
+        if (mail == "" || psswd == "" || repsswd=="" || nm =="")
+        {
+            alert("All fields are must for registration");
+            return false;
+        }
+        else
+        {   
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if (reg.test(mail) == false)
+            {
+                alert ("Incorrect Email format");
+                return false;
+            }
+            else if (psswd != repsswd)
+            {
+            alert ("Retyped Passwords Didn't match!");
+            return false;
+            }
+            else
+            {
+                alert ("Check your email inbox to complete verification!!");
+                return true;
+            }
+        }
+    }
+</script>
+{% endblock %}

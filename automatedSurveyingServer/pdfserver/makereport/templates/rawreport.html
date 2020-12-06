@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- {% load static %} -->
+<style>
+    .row{
+        text-align: center;
+    }
+</style>
+    <h1>
+        Atutomated Survey Report on {{ projectname }}
+    </h1>
+    <h6>To View The report pdf <a href="{% url 'report'  projectid  %}"> Click Here.</a></h6>
+    <div>
+        <ul>
+            <p>
+                Extent of Survey : {{ extent }}
+            </p>
+            <p>
+                Number of Images Captured : {{ count }}
+            </p>
+       
+    </div>
+    <br>
+    <br>
+    <div>
+        <h3>
+            Vegetation Report
+        </h3>
+        <div class="row">
+            <div class="col-sm-3">
+                <strong>Image Number</strong>
+            </div>
+            <div class="col-sm-6">
+                <strong> NDVI Output </strong>
+            </div>
+            <div class = "col-sm-3">
+                <strong> Image Area Details </strong>
+            </div>
+        </div>
+        {% for i in data %}
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ i.ndvi.imageid }}
+                </div>
+                <div class="col-sm-6">
+                    <img src='/static/{{ i.ndvi.resultid }}' alt="Failed to load" style="width: 90%;">
+                </div>
+                <div class="col-sm-3">
+                    <ul>
+                        <li>Height of Capture: {{ i.ndvi.height }} m</li>
+                        <li>Area Covered: {{ i.ndvi.area }} m<sup>2</sup></li>
+                        <li>Area Under Green Cover: {{ i.ndvi.areacover }} m<sup>2</sup></li>
+                    </ul>
+                </div>
+
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+    <br>
+    <div>
+        <h3>
+            Settlement Report
+        </h3>
+        <div class="row">
+            <div class="col-sm-3">
+                <strong>Image Number</strong>
+            </div>
+            <div class="col-sm-3">
+                <strong> Original Image </strong>
+            </div>
+            <div class="col-sm-3">
+                <strong> Settlement Segmented Image </strong>
+            </div>
+            <div class = "col-sm-3">
+                <strong> Image Area Details </strong>
+            </div>
+        </div>
+        {% for i in data %}
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ i.settle.imageid }}
+                </div>
+                <div class="col-sm-3">
+                    <img src='/static/{{ i.settle.imageid }}.jpg' alt="Failed to load" style="width: 90%;">
+                </div>
+                <div class="col-sm-3">
+                    <img src='/static/{{ i.settle.resultid }}' alt="Failed to load" style="width: 90%;">
+                </div>
+                <div class="col-sm-3">
+                    <ul>
+                        <li>Height of Capture: {{ i.settle.height }} m </li>
+                        <li>Area Covered: {{ i.settle.area }} m<sup>2</sup></li>
+                        <li>Area Under Settlement: {{ i.settle.areacover }} m<sup>2</sup></li>
+                    </ul>
+                </div>
+
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+    <br>
+    <div>
+        <h3>
+            Water Cover Report
+        </h3>
+        <div class="row">
+            <div class="col-sm-3">
+                <strong>Image Number</strong>
+            </div>
+            <div class="col-sm-3">
+                <strong> Original Image </strong>
+            </div>
+            <div class="col-sm-3">
+                <strong> Water Body Segmented Image </strong>
+            </div>
+            <div class = "col-sm-3">
+                <strong> Image Area Details </strong>
+            </div>
+        </div>
+        {% for i in data %}
+            <div class="row">
+                <div class="col-sm-3">
+                    {{ i.water.imageid }}
+                </div>
+                <div class="col-sm-3">
+                    <img src='/static/{{ i.settle.imageid }}.jpg' alt="Failed to load" style="width: 90%;">
+                </div>
+                <div class="col-sm-3">
+                    <img src='/static/{{ i.water.resultid }}' alt="Failed to load" style="width: 90%;">
+                </div>
+                <div class="col-sm-3">
+                    <ul>
+                        <li>Height of Capture: {{ i.water.height }} m</li>
+                        <li>Area Covered: {{ i.water.area }} m<sup>2</sup></li>
+                        <li>Area Under WaterBody: {{ i.water.areacover }} m<sup>2</sup></li>
+                    </ul>
+                </div>
+
+            </div>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}
