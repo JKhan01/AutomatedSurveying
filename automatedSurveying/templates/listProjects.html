@@ -5,7 +5,7 @@
     <h3> Projects Pending for Surveying: </h3>
     {% if data[1] != 0 %}
         {% for j in data[2] %}
-            <label> Project Name: </label> &nbsp;&nbsp;&nbsp; <label> <a href='http://127.0.0.1:8000/report/images/{{j.projectid}}'> {{ j.projectname }}</label>
+            <label> Project Name: </label> &nbsp;&nbsp;&nbsp; <label> <a href='/flag/{{ j.projectid }}'> {{ j.projectname }}</label>
                 <br>
                 <br>
         {% endfor %}

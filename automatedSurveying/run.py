@@ -24,8 +24,8 @@ app.config['SQLALCHEMY_ECHO']= True
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'jimbhadwachutiya69@gmail.com'
-app.config['MAIL_PASSWORD'] = 'jaimaharashtra69'
+app.config['MAIL_USERNAME'] = 'jkhan266work@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Anaskhan24'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -308,6 +308,11 @@ def listPending():
     else:
         return('/')
 
+@app.route('/flag/<projectid>')
+def updateFlag(projectid):
+    access = ProjectModel.query.filter_by(projectid = int(projectid)).update(dict(report=int(1)))
+    db.session.commit()
+    return redirect('http://127.0.0.1:8000/report/images/'+projectid)
 
 @app.route('/reports')
 def reports():

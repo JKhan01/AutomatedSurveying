@@ -1,16 +1,27 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from makereport.models import Projectdetails, Userdetails, Imagesdetails
 from django.core.files.storage import FileSystemStorage
+from django.core.mail import send_mail, EmailMessage
 from makereport.helper import predictWater, predictSettle, predictNDVI
 from weasyprint import HTML
 from django.conf import settings
 from django.template.loader import get_template
+from pdfserver.settings import FILE_URL, MEDIA_ROOT, STATIC_ROOT, STATIC_URL, MEDIA_URL, EMAIL_HOST_USER
 import pdfcrowd
+from xhtml2pdf import pisa
+from io import BytesIO
+import os
+
 # Create your views here.
 
 
 def report(request,projectid):
-    return HttpResponse('Kaam CHalu Aahe thamba')
+    try:
+        return HttpResponseRedirect(f'http://127.0.0.1:8000/static/{projectid}report.pdf')
+    except Exception as e:
+        context = {'data':str(e)}
+        return render(request, "error.html", context=context)
+        
 
 def imageForm(request,projectId):
     if projectId:
@@ -73,8 +84,33 @@ def pushData(request):
             context['projectname'] = access.projectname
             context['extent'] = access.extent
             context['count'] = int(request.POST['length'])
-            
+            context['filePath'] = FILE_URL
+            script = get_template('rawreport.html').render(context=context)
+            # print (script)
+            # pdfScript = HTML(string=str(script), base_url=str(MEDIA_ROOT))
+            # pdfScript.write_pdf('makereport/static/'+projectId +"report.pdf")
             # # return HttpResponseRedirect(rev)
+            # client = pdfcrowd.HtmlToPdfClient('jkhan01', '38fad4509b4556654673b7b7ac596269')
+
+            # # run the conversion and write the result to a file
+            # client.convertStringToFile(script, 'test.pdf') 
+            result = BytesIO()
+            script = script.replace('/static/',FILE_URL)
+            # script = script.replace('vw','')
+            # script = script.replace('vh','')
+            # script = script.replace('%','')
+            pdf = pisa.CreatePDF(script.encode('UTF-8'), open(f'makereport/static/{projectId}report.pdf','wb'))
+            if not pdf.err:
+                print ('jhala kahitari')
+                f = FileSystemStorage()
+                attach = f.open(f'{projectId}report.pdf')
+                mail = EmailMessage(f"Survey Report for {context['projectname']}", 'Kindly find the requested survey report atatched to this email.', EMAIL_HOST_USER,['jkhan266@gmail.com'])
+                mail.attach(attach.name, attach.read(), 'application/pdf')
+                mail.send()
+            else:
+                print ('hagg diya')
+
+
             return render(request,'rawreport.html', context=context)
  
             
@@ -92,3 +128,29 @@ from django.template.defaulttags import register
 @register.filter(name='get_range')
 def get_range(value):
     return range(1,int(value)+1)
+
+def link_callback(uri, rel):
+    """
+    Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+    resources
+    """
+    # use short variable names
+    sUrl = STATIC_URL      # Typically /static/
+    sRoot = STATIC_ROOT    # Typically /home/userX/project_static/
+    mUrl = MEDIA_URL       # Typically /static/media/
+    mRoot = MEDIA_ROOT     # Typically /home/userX/project_static/media/
+
+    # convert URIs to absolute system paths
+    if uri.startswith(mUrl):
+        path = os.path.join(mRoot, uri.replace(mUrl, ""))
+    elif uri.startswith(sUrl):
+        path = os.path.join(sRoot, uri.replace(sUrl, ""))
+    else:
+        return uri  # handle absolute uri (ie: http://some.tld/foo.png)
+
+    # make sure that file exists
+    if not os.path.isfile(path):
+            raise Exception(
+                f'media URI must start with {sUrl} or {mUrl}'
+            )
+    return path

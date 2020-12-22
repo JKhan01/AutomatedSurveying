@@ -90,7 +90,13 @@ DATABASES = {
     }
 }
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIT_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'jkhan266work@gmail.com'
+EMAIL_HOST_PASSWORD = 'Anaskhan24'
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -131,3 +137,4 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/makereport/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'makereport/static/')
 STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
+FILE_URL = '/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/static/'

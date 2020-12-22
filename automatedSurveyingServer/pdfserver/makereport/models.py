@@ -140,7 +140,7 @@ class Projectdetails(models.Model):
     username = models.CharField(max_length=50)
     projectid = models.AutoField(primary_key=True)
     projectname = models.CharField(max_length=100)
-    extent = models.DecimalField(max_digits=65535, decimal_places=65535)
+    extent = models.DecimalField(max_digits=65535, decimal_places=30000)
     report = models.IntegerField()
 
     class Meta:

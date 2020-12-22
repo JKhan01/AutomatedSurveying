@@ -23,13 +23,13 @@ def read_i(path):
     return x
 
 def predictSettle(p,i,h):
-    model = tf.keras.models.load_model("/home/jkhan01/Desktop/automatedSurveyingServer/pdfserver/makereport/models/modelSettle.h5")
-    x = read_i(f'/home/jkhan01/Desktop/automatedSurveyingServer/pdfserver/makereport/static/{p}00{i}.jpg')
+    model = tf.keras.models.load_model("/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/models/modelSettle.h5")
+    x = read_i(f'/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/static/{p}00{i}.jpg')
     y_pred = model.predict(np.expand_dims(x, axis=0))[0] > 0.5
     out = mask_parse(y_pred) * 255.0
     count = np.count_nonzero(out)/3
 
-    cv2.imwrite(f"/home/jkhan01/Desktop/automatedSurveyingServer/pdfserver/makereport/static/resultSettle{p}00{i}.jpg", out)
+    cv2.imwrite(f"/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/static/resultSettle{p}00{i}.jpg", out)
     area = float((math.tan(math.pi/5))*2*h)**2
     print (f"area : {area} m^2")
     areaPerPixel = area/(256**2)
@@ -38,13 +38,13 @@ def predictSettle(p,i,h):
 
 def predictWater(p,i,h):
     modelPath = os.path.abspath("models")+"/modelWater.h5"
-    model = tf.keras.models.load_model("/home/jkhan01/Desktop/automatedSurveyingServer/pdfserver/makereport/models/modelWater.h5")
-    x = read_i(f'/home/jkhan01/Desktop/automatedSurveyingServer/pdfserver/makereport/static/{p}00{i}.jpg')
+    model = tf.keras.models.load_model("/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/models/modelWater.h5")
+    x = read_i(f'/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/static/{p}00{i}.jpg')
     y_pred = model.predict(np.expand_dims(x, axis=0))[0] > 0.5
     out = mask_parse(y_pred) * 255.0
     count = np.count_nonzero(out)/3
 
-    cv2.imwrite(f"/home/jkhan01/Desktop/automatedSurveyingServer/pdfserver/makereport/static/resultWater{p}00{i}.jpg", out)
+    cv2.imwrite(f"/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/static/resultWater{p}00{i}.jpg", out)
     area = float((math.tan(math.pi/5))*2*h)**2
     print (f"area : {area} m^2")
     areaPerPixel = area/(256**2)
@@ -52,7 +52,7 @@ def predictWater(p,i,h):
     return ({"areacover":areaPerPixel*count,"area":area,"areaPerPixel":areaPerPixel,"height":h,"imageid":f"{p}00{i}","resultid":f"resultWater{p}00{i}.jpg"})
 
 def predictNDVI(p,imageNumber,h):
-    img = Image.open(f'/home/jkhan01/Desktop/automatedSurveyingServer/pdfserver/makereport/static/{p}00{imageNumber}.jpg')
+    img = Image.open(f'/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/static/{p}00{imageNumber}.jpg')
     imgF = np.asarray(img.resize((300,300)))
     imgFinal = np.array((imgF/255),dtype=np.float32)
     ndviMatrix = np.zeros((300,300),dtype=np.float32)
@@ -92,7 +92,7 @@ def predictNDVI(p,imageNumber,h):
     ax2.imshow(imgFinal)
 
     # saving the image
-    fig.savefig(f"/home/jkhan01/Desktop/automatedSurveyingServer/pdfserver/makereport/static/resultNDVI{p}00{imageNumber}.jpg")
+    fig.savefig(f"/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/static/resultNDVI{p}00{imageNumber}.jpg")
     txt = ''
     if np.average(ndviMatrix) > 0:
         txt = "vegetative land recognised"  
