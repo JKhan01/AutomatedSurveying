@@ -3,6 +3,8 @@ from form import inputQuery
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail,Message
 #from models import model
+import uuid
+import requests
 from geopy.geocoders import Nominatim
 import webbrowser
 import os
@@ -24,8 +26,8 @@ app.config['SQLALCHEMY_ECHO']= True
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'jkhan266work@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Anaskhan24'
+app.config['MAIL_USERNAME'] = 'jimbhadwachutiya69@gmail.com'
+app.config['MAIL_PASSWORD'] = 'jaimaharashtra69'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -40,6 +42,11 @@ psswd=str()
 log_ml=str()
 log_psswd=str()
 #define the table
+ALLOWED_EXTENSIONS = ['jpg','jpeg','png']
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 class model(db.Model):
     __tablename__ = "userdetails"
     name = db.Column(db.String(15),nullable=False)
@@ -310,9 +317,49 @@ def listPending():
 
 @app.route('/flag/<projectid>')
 def updateFlag(projectid):
-    access = ProjectModel.query.filter_by(projectid = int(projectid)).update(dict(report=int(1)))
-    db.session.commit()
-    return redirect('http://127.0.0.1:8000/report/images/'+projectid)
+
+    unique_identifier = uuid.uuid1()
+    try:
+        resp = requests.get("http://192.168.0.110:5000/setcred/"+str(projectid)+"/"+str(unique_identifier))
+        if resp.status_code == 200:
+            session['session_id'] = {'uid':str(unique_identifier),'pid':projectid}
+        # access = ProjectModel.query.filter_by(projectid = int(projectid)).update(dict(report=int(1)))
+        # db.session.commit()
+            data = [unique_identifier,projectid]
+        # return redirect('http://127.0.0.1:8000/'+projectid)
+            return render_template("notify.html",data=data)
+
+        else:
+            return "Haga diya"
+
+    except Exception as e:
+        print (str(e))
+        return (str(e))
+
+@app.route("/makereport/<uid>/<pid>/<count>")
+def make_report_request(uid,pid,count):
+    report_request = requests.get(f"http://127.0.0.1:8000/report/pushdata/{pid}/{count}")
+    if (report_request.status_code == 200):
+        access = ProjectModel.query.filter_by(projectid = int(pid)).update(dict(report=int(1)))
+        db.session.commit()
+        return "Success", 200
+
+    return ("Error Occured. Check Logs")
+
+    
+@app.route("/upload",methods=["POST"])
+def store_image():
+
+    data = request.files
+    if data['file'] == None:
+        return "no file", 400
+    file = data['file']
+
+    if file and allowed_file(file.filename):
+        file.save(os.path.join("/home/jkhan01/Desktop/AutomatedSurveying/automatedSurveyingServer/pdfserver/makereport/static/", secure_filename(file.filename)))
+        return "file uploaded", 202
+    else:
+        return 'not allowed', 403
 
 @app.route('/reports')
 def reports():
@@ -386,4 +433,4 @@ def logOut():
         
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",debug=True)

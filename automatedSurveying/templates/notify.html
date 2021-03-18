@@ -1,0 +1,9 @@
+{% extends "baseNoImg.html" %}
+{% block content %}
+
+ <div style="font-size: 25px; text-align: center; width: 100%;">
+     The Unique ID for the surveying authentication is <label style="color: darkgoldenrod;"><u> {{ data[0] }} </u></label> for project {{ data[1] }}.<br>
+     <a href="http://192.168.0.110:5000/login">Click Here</a> to start onsite survey 
+ </div>
+
+{%endblock%}
