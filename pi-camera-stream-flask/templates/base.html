@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        AUTOMATED SURVEYING
+    </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body, html {
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+/* input[type=text], select {
+  
+  padding: 10px 20px; 
+  margin: 10px 0;
+  display: block;
+  border: 1px solid;
+  border-radius: 3px;
+  box-sizing: border-box;
+} */
+input[type=number]
+{
+  width: 60%;
+  padding: 10px 20px; 
+  margin: 10px 0;
+  display: block;
+  border: 1px solid;
+  border-radius: 3px;
+  box-sizing: border-box;
+
+}
+
+input[type=submit] {
+  width: 60%;
+  background-color: burlywood;
+  color: black;
+  padding: 12px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: bisque;
+}
+
+
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div style="background-color: black; height: 15vh; width: 100%;">
+    <h1 style="color: darkgoldenrod; text-align: center;font-size: 2.5vw; padding-top: 0.5vh;">AUTOMATED SURVEYING</h1>
+
+</div>
+<div style="padding-top: 1.5vh;padding-left: 1.5vw; text-align: center;">
+{% block content %}
+{% endblock %}
+
+<!-- <div style="float: left; color: blanchedalmond; height: auto;width: 50%; padding-left: 20px; text-align: center;">
+  <img src="static/img.jpg" height=inherit width=80% />
+
+</div>    -->
+</div>
+
+</body>
+</html>
