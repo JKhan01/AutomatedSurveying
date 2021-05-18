@@ -1,3 +1,19 @@
+# Automated Surveying
+## Repo Structure
+```
+AutomatedSurveying/
+```
+>> The main surveying portal folder build upon Flask
+
+```
+AutomatedSurveyingServer/
+```
+>> The Model and algorithmic server for generating the report build on Django
+
+```
+pi-camera-stream-flask
+```
+>> The raspberry pi server for camera streaming build on Flask
 # Make you own Raspberry Pi Camera Stream
 
 Create your own live stream from a Raspberry Pi using the Pi camera module. Build your own applications from here.
